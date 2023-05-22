@@ -1,13 +1,17 @@
 provider "aws" {
-  region = var.region
+  region = "eu-west-1"
 }
 
-module "template" {
-  source      = "../../"
-  name_prefix = var.name_prefix
+resource "aws_route53_zone" "public" {
+  name = "bedrift-dev.telia.io"
+}
 
-  tags = {
-    environment = "dev"
-    terraform   = "True"
-  }
+module "frontend-subdomains" {
+  source = "github.com/telia-oss/terraform-aws-cloudfront-subdomains"
+
+  project        = "telia-no-oneportal"
+  environment    = "dev"
+  hostname       = aws_route53_zone.public.name
+  hosted_zone_id = aws_route53_zone.public.zone_id
+  default_object = "index.html"
 }
