@@ -296,11 +296,6 @@ data "aws_iam_policy_document" "s3_bucket_static_web" {
   }
 }
 
-resource "aws_s3_bucket_acl" "static_web" {
-  bucket = aws_s3_bucket.static_web.id
-  acl    = "private"
-}
-
 # Disable public access to bucket and contents
 resource "aws_s3_bucket_public_access_block" "static_web" {
   bucket = aws_s3_bucket.static_web.id
