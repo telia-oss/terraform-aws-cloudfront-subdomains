@@ -261,10 +261,10 @@ resource "aws_cloudfront_origin_access_identity" "s3_bucket_static_web" {}
 // S3 Bucket
 
 resource "aws_s3_bucket" "static_web" {
-  bucket = var.s3_bucket_name != null ? var.s3_bucket_name : "${var.project}-frontend-branch-${local.module_id}-${var.environment}"
+  bucket = var.s3_bucket_name != null ? var.s3_bucket_name : "${var.project}-cloudfront-subdomain-${local.module_id}-${var.environment}"
 
   tags = {
-    Name              = var.s3_bucket_name != null ? var.s3_bucket_name : "${var.project}-frontend-branch-${local.module_id}-${var.environment}"
+    Name              = var.s3_bucket_name != null ? var.s3_bucket_name : "${var.project}-cloudfront-subdomain-${local.module_id}-${var.environment}"
     Project           = var.project
     Environment       = var.environment
     TerraformModule   = "cloudfront-subdomains"
@@ -294,11 +294,6 @@ data "aws_iam_policy_document" "s3_bucket_static_web" {
       ]
     }
   }
-}
-
-resource "aws_s3_bucket_acl" "static_web" {
-  bucket = aws_s3_bucket.static_web.id
-  acl    = "private"
 }
 
 # Disable public access to bucket and contents
