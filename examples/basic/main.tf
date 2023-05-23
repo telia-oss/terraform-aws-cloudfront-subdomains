@@ -13,5 +13,5 @@ module "frontend-subdomains" {
   environment    = "dev"
   hostname       = aws_route53_zone.public.name
   hosted_zone_id = aws_route53_zone.public.zone_id
-  default_object = "index.html"
+  default_object = "/index.html"
 }
